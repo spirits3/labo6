@@ -8,13 +8,20 @@
 
 template < typename T, typename U >
 MPQueue<T,U>::MPQueue(size_t capacity) {
-
+  data.reserve(capacity);
 }
 
 template < typename T, typename U >
 template<typename ForwardIterator>
 MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
-
+  data.reserve(std::distance(first,last));
+  index_type index = 0;
+  for(ForwardIterator it = first; it!=last; ++it, ++index)
+  {
+    data.push_back(std::make_pair((distortion_type)(-(*it)),
+                                  (index_type)index));
+  }
+  std::make_heap(data.begin(), data.end());
 }
 
 
@@ -83,6 +90,17 @@ void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion)
 template < typename T, typename U >
 void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
    
+  while(2 * pos <= heapsize){
+    index_type c = 2 * pos;
+    if(c < heapsize && data.at(c) < data.at(c + 1)){
+      c = c + 1;
+    }
+    if(data.at(pos) >= data.at(c)){
+      break;
+    }
+    swap(data.at(pos), data.at(c));
+    pos = c;
+  }
 }
 
 template < typename T, typename U >
