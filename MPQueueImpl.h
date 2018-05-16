@@ -5,6 +5,7 @@
 
 #include "MPQueue.h" // Inutile mais simplifie le travail à l'IDE.
 #include <iostream>  // std::cerr
+#include <algorithm> // iter_swap
 
 template < typename T, typename U >
 MPQueue<T,U>::MPQueue(size_t capacity) {
@@ -16,7 +17,6 @@ template<typename ForwardIterator>
 MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
 
 }
-
 
 template < typename T, typename U >
 void MPQueue<T,U>::push(index_type val, distortion_type distortion) {
@@ -72,7 +72,10 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
 
 template < typename T, typename U >
 void MPQueue<T,U>::swim(index_type pos) {
-   
+   while(pos > 1 && data.at(pos) > data.at(pos / 2)) {
+      data.iter_swap(data.begin() + pos, data.begin() + (pos / 2));
+      pos /= 2;
+   }
 }
 
 template < typename T, typename U >
