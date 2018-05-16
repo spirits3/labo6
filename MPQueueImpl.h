@@ -74,7 +74,7 @@ bool MPQueue<T,U>::empty() const {
 
 template < typename T, typename U >
 distortion_type MPQueue<T,U>::get_distortion(index_type val) {
-   
+   return data.at(heapIndex.at(val)).first;
 }
 
 template < typename T, typename U >
