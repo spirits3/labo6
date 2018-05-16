@@ -1,11 +1,13 @@
-#ifndef PQueue_h
-#define PQueue_h
+MPQueue.h
 
+#ifndef MPQueue_h
+#define MPQueue_h
+
+#include <cstddef>
 #include <vector>
-#include <utility>
 
 template < typename T = size_t , typename U = double >
-class PQueue {
+class MPQueue {
 public:
   using index_type = T;
   using distortion_type = U;
@@ -13,13 +15,14 @@ public:
   
 private:
   std::vector<data_type> data;
-  
+  std::vector<index_type> heapIndex;
+
 public:
   /**
    Constructeur
    @param capacity capacité du vecteur contenant le tas
    */
-  PQueue(size_t capacity = 0);
+  MPQueue(size_t capacity = 0);
   
   /**
    Constructeur a partir d'une séquence de distortions
@@ -28,45 +31,88 @@ public:
    @param last iterateur apres la fin de la sequence
    */
   template<typename ForwardIterator>
-  PQueue(ForwardIterator first, ForwardIterator last);
+  MPQueue(ForwardIterator first, ForwardIterator last);
   
   /**
-   Ajoute un indice associé à une distortion dans la
+   Ajoute un indice associée à une distortion dans la
    queue de priorite
-
-   @param index indice
+   
+   @param val indice
    @param distortion distortion
    */
-  void push(const index_type& index, const distortion_type& distortion);
+  void push(index_type val, distortion_type distortion);
   
   /**
-   Retire l'élément le plus prioritaire (distortion la plus petite)
+   Retire l'élément a la plus petite distortion
    */
   void pop();
-
+  
   /**
    Accède a l'élément au sommet.
-
+   
    @return retourne l'indice / la distortion au sommet du tas
    */
-  const index_type& top_index() const;
-  distortion_type top_distortion() const;
-
+  index_type get_top_index() const;
+  distortion_type get_top_distortion() const;
+  
   /**
    Taille de la PQueue
-
+   
    @return nombre d'éléments
    */
   size_t size() const;
   
   /**
    La PQueue est-elle vide ?
-
+   
    @return booléen vide (true) ou pas (false).
    */
   bool empty() const;
+  
+  /**
+   Distortion d'une valeur entree
+
+   @param val valeur dont on cherche la distortion
+   @return distortion
+   */
+   distortion_type get_distortion(index_type val);
+  
+  /**
+   L'indice est-il dans le tas ?
+
+   @param val indice
+   @return vrai si l'indice est dans le tas
+   */
+  bool is_in_queue(index_type val);
+  
+  /**
+   Modifie la distortion d'une valeur
+
+   @param val valeur dont on modifie la distortion
+   @param distortion nouvelle distortion
+   */
+  void change_distortion(index_type val,
+                         distortion_type distortion);
+  
+private:
+
+  /**
+   Fait descendre vers le bas du tas si nécessaire
+
+   @param pos position de départ de l'élément à descendre
+   */
+  void sink(index_type pos, index_type heapsize);
+  
+  /**
+   Fait remonter vers le sommet du tas si nécessaire
+   
+   @param pos position de départ de l'élément à remonter
+   */
+  void swim(index_type pos);
+  
+  void check_if_is_internally_consistent();
 };
 
-#include "PQueueImpl.h"
+#include "MPQueueImpl.h"
 
-#endif /* PQueue_h */
+#endif /* MPQueue_h */
