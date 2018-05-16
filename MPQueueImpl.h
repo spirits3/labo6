@@ -25,7 +25,22 @@ void MPQueue<T,U>::push(index_type val, distortion_type distortion) {
 
 template < typename T, typename U >
 void MPQueue<T,U>::pop() {
-
+   std::pop_heap(data.begin(),data.end());
+   heapIndex.at(data[data.size()-1].second) = -1;
+   data.pop_back();
+   
+   // Mise à jour de heapIndex
+   for(unsigned i = 0; i < heapIndex.size(); i++)
+   {
+      for(unsigned j = 0; j < data.size(); j++)
+      {
+         if(data[j].second == i)
+         {
+            heapIndex[i] = data[j].second;
+            break;
+         }
+      }
+   }
 }
 
 template < typename T, typename U >
@@ -42,12 +57,12 @@ distortion_type MPQueue<T,U>::get_top_distortion() const {
 
 template < typename T, typename U >
 size_t MPQueue<T,U>::size() const {
-   
+   return data.size();
 }
 
 template < typename T, typename U >
 bool MPQueue<T,U>::empty() const {
-   
+   return data.size();
 }
 
 template < typename T, typename U >
