@@ -1,5 +1,3 @@
-MPQueue.h
-
 #ifndef MPQueue_h
 #define MPQueue_h
 
