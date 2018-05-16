@@ -53,8 +53,7 @@ void MPQueue<T,U>::pop() {
 template < typename T, typename U >
 index_type MPQueue<T,U>::get_top_index() const
 {
-   
-   
+   return data.front().second;
 }
 
 template < typename T, typename U >
