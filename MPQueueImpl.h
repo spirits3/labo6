@@ -23,6 +23,15 @@ MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
                                   (index_type)index));
   }
   std::make_heap(data.begin(), data.end());
+
+  for(unsigned i = 0; i < heapIndex.size(); i++) {
+      for(unsigned j = 0; j < data.size(); j++) {
+         if(data[j].second == i) {
+            heapIndex[i] = data[j].second;
+            break ;
+         }
+      }
+   }
 }
 
 template < typename T, typename U >
@@ -52,6 +61,7 @@ void MPQueue<T,U>::pop() {
 
 template < typename T, typename U >
 index_type MPQueue<T,U>::get_top_index() const
+
 {
    
    
@@ -59,7 +69,7 @@ index_type MPQueue<T,U>::get_top_index() const
 
 template < typename T, typename U >
 distortion_type MPQueue<T,U>::get_top_distortion() const {
-   
+   return data.at(heapIndex.at(0).first)
 }
 
 template < typename T, typename U >
