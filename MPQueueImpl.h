@@ -60,7 +60,7 @@ void MPQueue<T,U>::pop() {
 }
 
 template < typename T, typename U >
-index_type MPQueue<T,U>::get_top_index() const
+T MPQueue<T,U>::get_top_index() const
 
 {
    
@@ -68,8 +68,8 @@ index_type MPQueue<T,U>::get_top_index() const
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_top_distortion() const {
-   return data.at(heapIndex.at(0).first)
+U MPQueue<T,U>::get_top_distortion() const {
+   return data.at(heapIndex.at((index_type) 0)).first;
 }
 
 template < typename T, typename U >
@@ -83,7 +83,7 @@ bool MPQueue<T,U>::empty() const {
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_distortion(index_type val) {
+U MPQueue<T,U>::get_distortion(index_type val) {
    return data.at(heapIndex.at(val)).first;
 }
 
@@ -102,13 +102,13 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
    
   while(2 * pos <= heapsize){
     index_type c = 2 * pos;
-    if(c < heapsize && data.at(c) < data.at(c + 1)){
+    if(c < heapsize && data.at(c).second < data.at(c + 1).second){
       c = c + 1;
     }
-    if(data.at(pos) >= data.at(c)){
+    if(data.at(pos).second >= data.at(c).second){
       break;
     }
-    swap(data.at(pos), data.at(c));
+    swap(data.at(pos).second, data.at(c)).second;
     pos = c;
   }
 }
