@@ -27,7 +27,31 @@ MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
 
 template < typename T, typename U >
 void MPQueue<T,U>::push(index_type val, distortion_type distortion) {
-
+   data.push_back(std::make_pair(-distortion, val));
+   std::push_heap(data.begin(),data.end());
+      for(unsigned i = 0; i < heapIndex.size(); i++)
+   {
+      for(unsigned j = 0; j < data.size(); j++)
+      {
+         if(data[j].second == i)
+         {
+            heapIndex[i] = data[j].second;
+            break;
+         }
+      }
+   }
+   // Mise à jour de heapIndex
+   for(unsigned i = 0; i < heapIndex.size(); i++)
+   {
+      for(unsigned j = 0; j < data.size(); j++)
+      {
+         if(data[j].second == i)
+         {
+            heapIndex[i] = data[j].second;
+            break;
+         }
+      }
+   }
 }
 
 template < typename T, typename U >
@@ -51,15 +75,15 @@ void MPQueue<T,U>::pop() {
 }
 
 template < typename T, typename U >
-index_type MPQueue<T,U>::get_top_index() const
+typename MPQueue<T, U>::index_type MPQueue<T,U>::get_top_index() const
 {
    
    
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_top_distortion() const {
-   
+typename MPQueue<T, U>::distortion_type MPQueue<T,U>::get_top_distortion() const {
+
 }
 
 template < typename T, typename U >
@@ -73,7 +97,7 @@ bool MPQueue<T,U>::empty() const {
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_distortion(index_type val) {
+typename MPQueue<T, U>::distortion_type MPQueue<T,U>::get_distortion(index_type val) {
    return data.at(heapIndex.at(val)).first;
 }
 
