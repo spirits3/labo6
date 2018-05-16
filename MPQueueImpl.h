@@ -23,6 +23,15 @@ MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
                                   (index_type)index));
   }
   std::make_heap(data.begin(), data.end());
+
+  for(unsigned i = 0; i < heapIndex.size(); i++) {
+      for(unsigned j = 0; j < data.size(); j++) {
+         if(data[j].second == i) {
+            heapIndex[i] = data[j].second;
+            break ;
+         }
+      }
+   }
 }
 
 template < typename T, typename U >
@@ -51,14 +60,15 @@ void MPQueue<T,U>::pop() {
 }
 
 template < typename T, typename U >
-index_type MPQueue<T,U>::get_top_index() const
+T MPQueue<T,U>::get_top_index() const
+
 {
    return data.front().second;
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_top_distortion() const {
-   
+U MPQueue<T,U>::get_top_distortion() const {
+   return data.at(heapIndex.at((index_type) 0)).first;
 }
 
 template < typename T, typename U >
@@ -72,7 +82,7 @@ bool MPQueue<T,U>::empty() const {
 }
 
 template < typename T, typename U >
-distortion_type MPQueue<T,U>::get_distortion(index_type val) {
+U MPQueue<T,U>::get_distortion(index_type val) {
    return data.at(heapIndex.at(val)).first;
 }
 
@@ -91,13 +101,13 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
    
   while(2 * pos <= heapsize){
     index_type c = 2 * pos;
-    if(c < heapsize && data.at(c) < data.at(c + 1)){
+    if(c < heapsize && data.at(c).second < data.at(c + 1).second){
       c = c + 1;
     }
-    if(data.at(pos) >= data.at(c)){
+    if(data.at(pos).second >= data.at(c).second){
       break;
     }
-    swap(data.at(pos), data.at(c));
+    swap(data.at(pos).second, data.at(c)).second;
     pos = c;
   }
 }
