@@ -104,7 +104,7 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
 
 template < typename T, typename U >
 void MPQueue<T,U>::swim(index_type pos) {
-   while(pos > 1 && data.at(pos) > data.at(pos / 2)) {
+   while(pos > 1 && data.at(pos).second > data.at(pos / 2).second) {
       data.iter_swap(data.begin() + pos, data.begin() + (pos / 2));
       pos /= 2;
    }
