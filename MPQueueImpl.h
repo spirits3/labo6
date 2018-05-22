@@ -39,8 +39,8 @@ void MPQueue<T,U>::push(index_type val, distortion_type distortion) {
    data.push_back(std::make_pair(-distortion, val));
    std::push_heap(data.begin(),data.end());
    heapIndex.push_back(-1);
-   
-   // Mise à jour de heapIndex
+  
+    // Mise à jour de heapIndex
    for(unsigned i = 0; i < data.size(); i++)
    {
       heapIndex[data[i].second] = i;
@@ -97,8 +97,21 @@ bool MPQueue<T,U>::is_in_queue(index_type val) {
 template < typename T, typename U >
 void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion) {
    data.at(heapIndex.at(val)).first = -distortion;
-   std::make_heap(data.begin(), data.end());
+  
+  if(val > 0 && val < heapIndex.size()) {
+   if(get_distortion(val - 1) < -distortion){
+    std::cout << "SINK" << std::endl;
+    sink(val-1, heapIndex.size());
+   }
+   else if(get_distortion(val + 1) > -distortion){ 
+    std::cout << "SWIM" << std::endl;
+    swim(val + 1);
+   }
+ 
+  }
 
+   std::cout << "test val: " << val << std::endl;
+   1
    // Mise à jour heapIndex
    for(unsigned i = 0; i < data.size(); i++)
    {
