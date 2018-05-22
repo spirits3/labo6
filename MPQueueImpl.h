@@ -97,16 +97,17 @@ bool MPQueue<T,U>::is_in_queue(index_type val) {
 template < typename T, typename U >
 void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion) {
    data.at(heapIndex.at(val)).first = -distortion;
-  
-  if(val > 0 && val < heapIndex.size() - 1) {
-   if(get_distortion(val - 1) < -distortion){
-    sink(val - 1, heapIndex.size() - 1);
-   }
-   else if(get_distortion(val + 1) > -distortion){ 
-    swim(val + 1);
-   }
-  }
 
+  if(val == 0 && -get_distortion(val + 1) < -distortion) {
+      sink(val, heapIndex.size());
+  }
+  else if(-get_distortion(val - 1) < -distortion){
+    sink(val - 1, heapIndex.size() - 1);
+  }
+   else if(val < heapIndex.size() - 1 &&-get_distortion(val + 1) > -distortion){ 
+    swim(val + 1);
+  }
+  
    // Mise à jour heapIndex
    for(unsigned i = 0; i < data.size(); i++)
    {
@@ -116,16 +117,16 @@ void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion)
 
 template < typename T, typename U >
 void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
-   
   while(2 * pos <= heapsize){
     index_type c = 2 * pos;
+  
     if(c < heapsize && data.at(c).second < data.at(c + 1).second){
       c = c + 1;
     }
     if(data.at(pos).second >= data.at(c).second){
       break;
     }
-    std::swap(data.at(pos).second, data.at(c).second);
+    std::iter_swap(data.begin() + pos, data.begin() + c);
     pos = c;
   }
    // Mise à jour de heapIndex
@@ -137,7 +138,7 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
 
 template < typename T, typename U >
 void MPQueue<T,U>::swim(index_type pos) {
-   while(pos > 1 && data.at(pos).second > data.at(pos / 2).second) {
+   while(pos > 1 && pos < heapIndex.size() && data.at(pos).second > data.at(pos / 2).second) {
       std::iter_swap(data.begin() + pos, data.begin() + (pos / 2));
       pos /= 2;
    }
