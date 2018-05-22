@@ -98,20 +98,15 @@ template < typename T, typename U >
 void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion) {
    data.at(heapIndex.at(val)).first = -distortion;
   
-  if(val > 0 && val < heapIndex.size()) {
+  if(val > 0 && val < heapIndex.size() - 1) {
    if(get_distortion(val - 1) < -distortion){
-    std::cout << "SINK" << std::endl;
-    sink(val-1, heapIndex.size());
+    sink(val - 1, heapIndex.size() - 1);
    }
    else if(get_distortion(val + 1) > -distortion){ 
-    std::cout << "SWIM" << std::endl;
     swim(val + 1);
    }
- 
   }
 
-   std::cout << "test val: " << val << std::endl;
-   1
    // Mise à jour heapIndex
    for(unsigned i = 0; i < data.size(); i++)
    {
