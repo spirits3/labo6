@@ -87,6 +87,10 @@ typename MPQueue<T, U>::distortion_type MPQueue<T,U>::get_distortion(index_type 
 
 template < typename T, typename U >
 bool MPQueue<T,U>::is_in_queue(index_type val) {
+   if(val >= heapIndex.size())
+   {
+      return false;
+   }
    return (heapIndex.at(val) >= 0);
 }
 
