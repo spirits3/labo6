@@ -1,4 +1,7 @@
 // SOLUTION
+// Alison Savary
+// Florian Schaufelberger
+// Simon Walther
 
 #ifndef MPQueueImpl_h
 #define MPQueueImpl_h
@@ -94,6 +97,11 @@ bool MPQueue<T,U>::is_in_queue(index_type val) {
    return (heapIndex.at(val) >= 0);
 }
 
+//on regarde si la nouvelle distortion est plus grande que la precedente et on stoke cela dans
+//un bool. Puis on va mettre notre distortion à la bonne place.
+//Suivant le resultat du bool nous allons faire descendre ou monter 
+//jusqu'a la bonne place notre distortion.    
+
 template < typename T, typename U >
 void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion) {
    bool nouvelleDistoPlusGrande = data.at(heapIndex.at(val)).first < -distortion;
@@ -109,6 +117,7 @@ void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion)
    }
 }
 
+//Fonction permettant de faire descendre notre distortion
 template < typename T, typename U >
 void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
   while(2 * pos <= heapsize){
@@ -130,6 +139,7 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
    }
 }
 
+//fonction peremettant de faire monter notre distortion
 template < typename T, typename U >
 void MPQueue<T,U>::swim(index_type pos) {
    while(pos >= 1 && data.at(pos).first > data.at(pos / 2).first) {
