@@ -19,10 +19,11 @@ MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
   data.reserve(std::distance(first,last));
   heapIndex.reserve(std::distance(first,last));
   index_type index = 0;
-  for(ForwardIterator it = first; it!=last; ++it, ++index)
+  for(ForwardIterator it = first; it != last; ++it, ++index)
   {
     data.push_back(std::make_pair((distortion_type)(-(*it)),
                                   (index_type)index));
+    heapIndex.push_back(0);
   }
   std::make_heap(data.begin(), data.end());
 
@@ -31,8 +32,6 @@ MPQueue<T,U>::MPQueue(ForwardIterator first, ForwardIterator last) {
    {
       heapIndex[data[i].second] = i;
    }
-   
-  check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
@@ -46,8 +45,6 @@ void MPQueue<T,U>::push(index_type val, distortion_type distortion) {
    {
       heapIndex[data[i].second] = i;
    }
-   
-   check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
@@ -61,8 +58,6 @@ void MPQueue<T,U>::pop() {
    {
       heapIndex[data[i].second] = i;
    }
-   
-   check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
@@ -105,8 +100,6 @@ void MPQueue<T,U>::change_distortion(index_type val, distortion_type distortion)
    {
       heapIndex[data[i].second] = i;
    }
-
-   check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
@@ -128,7 +121,6 @@ void MPQueue<T,U>::sink(index_type pos, index_type heapsize) {
    {
       heapIndex[data[i].second] = i;
    }
-  check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
@@ -142,7 +134,6 @@ void MPQueue<T,U>::swim(index_type pos) {
    {
       heapIndex[data[i].second] = i;
    }
-   check_if_is_internally_consistent();
 }
 
 template < typename T, typename U >
