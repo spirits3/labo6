@@ -31,7 +31,7 @@ int main() {
 
   for(size_t i = 0; i < N; ++i)
     cout << i << " " <<  pq.get_distortion(i) << endl;
- /* 
+  
   cout << endl;
   cout << "Modification des distortions" << endl << endl;
 
@@ -82,5 +82,5 @@ int main() {
       pq2.change_distortion(neighbor,aleatoire());
       cout << pq2.get_distortion(neighbor) << endl;
     }
-  }*/
+  }
 }
